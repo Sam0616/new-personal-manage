@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.TraindataInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.TraindataInf">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="filename" property="filename" />
+        <result column="remark" property="remark" />
+        <result column="createdate" property="createdate" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+</mapper>

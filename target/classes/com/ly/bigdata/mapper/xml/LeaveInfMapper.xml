@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.LeaveInfMapper">
+
+    <resultMap id="leaveMapperResult" type="LeaveInf">
+        <id property="id" column="id"></id>
+        <result property="empId" column="emp_id"></result>
+        <result property="deptId" column="dept_id"></result>
+        <result property="jobId" column="job_id"></result>
+        <result property="startdata" column="startdata"></result>
+        <result property="enddata" column="enddata"></result>
+        <result property="leavedays" column="leavedays"></result>
+        <result property="leavetype" column="leavetype"></result>
+        <result property="content" column="content"></result>
+        <result property="leavestatus" column="leavestatus"></result>
+        <result property="leavetime" column="leavetime"></result>
+
+        <association property="deptInf" javaType="DeptInf">
+            <id property="id" column="DEPT_ID"></id>
+            <result property="name" column="dname"></result>
+        </association>
+        <association property="jobInf" javaType="JobInf">
+            <id property="id" column="JOB_ID"></id>
+            <result property="name" column="jname"></result>
+        </association>
+        <association property="employeeInf" javaType="EmployeeInf">
+            <id property="id" column="EMP_ID"></id>
+            <result property="name" column="ename"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="findLeaveInfAll" resultMap="leaveMapperResult">
+select ch.*,dept.name dname,emp.name ename,job.name jname
+from leave_inf ch,
+     dept_inf dept,
+		 employee_inf emp,
+		 job_inf job
+ where
+ ch.dept_id=dept.id
+ and ch.emp_id=emp.id
+ and ch.job_id=job.id
+ and (dept.name like #{content} or emp.name like #{content} or job.name like #{content})
+
+
+    </select>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.ContractInfMapper">
+
+    <resultMap id="MapperResult" type="contractInf">
+        <id property="id" column="ID"></id>
+        <result property="empId" column="EMP_ID"></result>
+        <result property="deptId" column="DEPT_ID"></result>
+        <result property="jobId" column="JOB_ID"></result>
+
+        <result property="statusId" column="STATUS_ID"></result>
+        <result property="trainContract" column="TRAIN_CONTRACT"></result>
+        <result property="laborContract" column="LABOR_CONTRACT"></result>
+        <result property="createDate" column="CREATE_DATE"></result>
+        <result property="confidentialityContract" column="CONFIDENTIALITY_CONTRACT"></result>
+
+        <association property="deptInf" javaType="DeptInf">
+            <id property="id" column="DEPT_ID"></id>
+            <result property="name" column="dname"></result>
+        </association>
+        <association property="jobInf" javaType="JobInf">
+            <id property="id" column="JOB_ID"></id>
+            <result property="name" column="jname"></result>
+        </association>
+        <association property="employeeInf" javaType="EmployeeInf">
+            <id property="id" column="EMP_ID"></id>
+            <result property="name" column="ename"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="findSalaryInfAll" resultMap="MapperResult">
+
+select si.*,dept.name dname,emp.name ename,job.name jname
+from contract_inf si,
+     dept_inf dept,
+		 employee_inf emp,
+		 job_inf job
+ where
+ si.dept_id=dept.id
+ and si.emp_id=emp.id
+ and si.job_id=job.id
+ and (dept.name like #{content} or emp.name like #{content} or job.name like #{content})
+
+</select>
+    <select id="findSalaryPersonal" resultMap="MapperResult">
+    select si.*,dept.name dname,emp.name ename,job.name jname
+from contract_inf si,
+     dept_inf dept,
+		 employee_inf emp,
+		 job_inf job
+ where
+ si.dept_id=dept.id
+ and si.emp_id=emp.id
+ and si.job_id=job.id
+ and (dept.name like #{content} or emp.name like #{content} or job.name like #{content})
+ and emp.name=#{name}
+    </select>
+</mapper>

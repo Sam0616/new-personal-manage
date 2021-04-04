@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.EmployeeInfMapper">
+
+
+    <resultMap id="EmpResultMap" type="EmployeeInf">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="cardId" column="card_id"/>
+        <result property="phone" column="phone"/>
+        <result property="sexId" column="sex_id"/>
+        <result property="createdate" column="createdate"/>
+        <association property="dept" javaType="DeptInf">
+            <id property="id" column="dept_id"/>
+            <result property="name" column="dname"/>
+        </association>
+        <association property="job" javaType="JobInf">
+            <id property="id" column="dept_id"/>
+            <result property="name" column="jname"/>
+        </association>
+        <association property="education" javaType="EducationInf">
+            <id property="id" column="education_id"/>
+            <result property="name" column="ename"/>
+        </association>
+        <association property="user" javaType="UserInf">
+            <id property="id" column="user_id"/>
+            <result property="loginname" column="loginname"/>
+            <result property="email" column="email"/>
+        </association>
+    </resultMap>
+
+
+    <select id="selectEmpAll" resultMap="EmpResultMap">
+        SELECT
+	ei.*,
+	ui.loginname,
+	ui.email,
+	ji. NAME jname,
+	di. NAME dname,
+	edi.name ename
+
+FROM employee_inf ei, user_inf ui, job_inf ji, dept_inf di, education_inf edi
+WHERE
+	ei.dept_id = di.id
+AND ei.job_id = ji.id
+AND ei.education_id = edi.id
+AND ei.user_id = ui.id
+AND ei.education_id = edi.id
+AND (ei.name like #{content} or ei.address like #{content})
+
+
+    </select>
+
+
+    <select id="selectSexes" resultType="com.ly.bigdata.vo.sexNum">
+SELECT COUNT(*) `value`,si.`name` FROM employee_inf ei,sex_inf si where si.id=ei.sex_id GROUP BY sex_id
+	</select>
+</mapper>

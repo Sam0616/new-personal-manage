@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.bigdata.mapper.TrainInfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ly.bigdata.po.TrainInf">
+        <id column="id" property="id" />
+        <result column="emp_id" property="empId" />
+        <result column="dept_id" property="deptId" />
+        <result column="job_id" property="jobId" />
+        <result column="content" property="content" />
+        <result column="startdate" property="startdate" />
+        <result column="enddate" property="enddate" />
+        <result column="totallength" property="totallength" />
+        <result column="completion" property="completion" />
+        <result column="grade" property="grade" />
+        <result column="traintime" property="traintime" />
+    </resultMap>
+
+
+
+    <select id="selectTrainAll" resultMap="BaseResultMap">
+        SELECT ci.*,
+			 di.`name` dname,
+			 ei.`name` ename,
+			 ji.`name` jname
+
+
+				FROM train_inf ci,
+						dept_inf di,
+						employee_inf ei,
+						job_inf ji
+				WHERE
+						ci.dept_id=di.id
+        AND ci.emp_id=ei.id
+				AND ci.job_id=ji.id
+				AND (di.`name` like #{content} or ei.`name` like #{content} or ji.`name` like #{content})
+    </select>
+    <select id="selectTrainPersonal" resultType="com.ly.bigdata.po.TrainInf">
+        SELECT ci.*,
+			 di.`name` dname,
+			 ei.`name` ename,
+			 ji.`name` jname
+
+
+				FROM train_inf ci,
+						dept_inf di,
+						employee_inf ei,
+						job_inf ji
+				WHERE
+						ci.dept_id=di.id
+        AND ci.emp_id=ei.id
+				AND ci.job_id=ji.id
+				AND (di.`name` like #{content} or ei.`name` like #{content} or ji.`name` like #{content})
+                AND ei.`name`=#{name}
+
+    </select>
+
+</mapper>
